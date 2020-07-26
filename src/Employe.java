@@ -1,100 +1,154 @@
-import java.time.LocalDate;
-import java.time.Period;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
+import java.text.ParseException;
+import java.util.*;
+import java.text.SimpleDateFormat;
 
+/**
+ *
+ * @author Anouchka
+ */
 public class Employe {
-	
-	private String matricule, nom, prenom; 
-	String dateNaissance, dateEmbauche; // jour/mois/annee
-	double salaire;
-	
-	public Employe(String matricule, String nom, String prenom, String dateNaissance, String dateEmbauche,
-			double salaire) {
-		super();
-		this.matricule = matricule;
-		this.nom = nom;
-		this.prenom = prenom;
-		this.dateNaissance = dateNaissance;
-		this.dateEmbauche = dateEmbauche;
-		this.salaire = salaire;
-	}
-	
-	public int age() {
-	
-		int age = 0;
-		
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-		LocalDate localDate = LocalDate.parse(dateNaissance, formatter);
-		
-		return age;
-	}
-	
-	public int anciente() {
-		int anciente = 0;
-		return anciente;
-	}
-	
-	public void augmentationDuSalaire( ) {
-		
-	}
-	
-	public void afficherEmploye() {
-		System.out.println("Matricule: " +matricule);
-		System.out.println("Nom: " +nom);
-		System.out.println("Prénom: " +prenom);
-		System.out.println("Date de naissance: " +dateNaissance);
-		System.out.println("Date d'embauche: " +dateEmbauche);
-		System.out.println("Salaire: " +salaire);
-	}
-
-	public String getMatricule() {
-		return matricule;
-	}
-
-	public void setMatricule(String matricule) {
-		this.matricule = matricule;
-	}
-
-	public String getNom() {
-		return nom;
-	}
-
-	public void setNom(String nom) {
-		this.nom = nom;
-	}
-
-	public String getPrenom() {
-		return prenom;
-	}
-
-	public void setPrenom(String prenom) {
-		this.prenom = prenom;
-	}
-
-	public String getDateNaissance() {
-		return dateNaissance;
-	}
-
-	public void setDateNaissance(String dateNaissance) {
-		this.dateNaissance = dateNaissance;
-	}
-
-	public String getDateEmbauche() {
-		return dateEmbauche;
-	}
-
-	public void setDateEmbauche(String dateEmbauche) {
-		this.dateEmbauche = dateEmbauche;
-	}
-
-	public double getSalaire() {
-		return salaire;
-	}
-
-	public void setSalaire(double salaire) {
-		this.salaire = salaire;
-	}
-	
-
+    
+    //Les attributs de la class
+    private int Matricule;
+    private String Nom;
+    private String Prenom;
+    private Date DateNaissance;
+    private Date DateEmbauche;
+    private double Salaire;
+         
+    
+    //La méthode qui retourne l'âge de l'employé
+    public int Age()
+    {
+        Date today = new Date();
+        return today.getYear() - DateNaissance.getYear();
+    }
+    
+    //La méthode pour retourner l'ancienté de l'employé en nombre d'années
+    public int Anciente()
+    {
+        Date today = new Date();
+        return today.getYear() - DateEmbauche.getYear();
+    }
+    
+    //Méthode qui augmente le salaire en fonction de l'ancienté
+    public void AugmentationDuSalaire()
+    {
+        if(Anciente() < 5)
+        {
+            Salaire = Salaire + (Salaire * 0.02);
+        }
+        else if(Anciente() > 5 && Anciente() < 10)
+        {
+            Salaire = Salaire + (Salaire * 0.05);
+        }
+        else
+        {
+            Salaire = Salaire + (Salaire * 0.1);
+        }
+    }
+    
+    //La méthode qui affiche les détails de l'employé
+    public void AfficherEmploye()
+    {
+        System.out.println("Matricule : " + Matricule);
+        
+        //Mettre en majuscule la première lettre du nom et prenom
+        String output = Nom.substring(0, 1).toUpperCase() + Nom.substring(1);
+        
+        System.out.println("Nom complet : " + Prenom.toUpperCase() + " " + output);
+        
+        System.out.println("Age : " + Age());
+        System.out.println("Ancienté : " + Anciente());
+        System.out.println("Salaire : " + Salaire);
+    }
+    
+    //Constructeur avec l'initialisation des paramètres
+    Employe(int Matricule , String Nom , String Prenom , String DateNaissance , String DateEmbauche , double Salaire)
+    {
+        this.Matricule = Matricule;
+        this.Nom = Nom;
+        this.Prenom = Prenom;
+        
+        try 
+        {
+            this.DateNaissance = new SimpleDateFormat("dd/mm/yyyy").parse(DateNaissance);
+            this.DateEmbauche = new SimpleDateFormat("dd/mm/yyyy").parse(DateEmbauche);
+        } 
+        catch (ParseException ex) 
+        {
+            System.out.println(ex.getMessage());
+        }        
+        this.Salaire = Salaire;
+    }
+ 
+    //SETTER METHODS FOR SETTING THE ATTRIBUTES OF THE CLASS
+    public void setMatricule(int Matricule)
+    {
+        this.Matricule = Matricule;
+    }
+    public void setNom(String Nom)
+    {
+        this.Nom = Nom;
+    }
+    public void setPrenom(String Prenom)
+    {
+        this.Prenom = Prenom;
+    }
+    public void setDateNaissance(String DateNaissance)
+    {
+        try 
+        {
+            //Converti une chaine de caractère de dd/mm/yyyy en format Date 
+            this.DateNaissance = new SimpleDateFormat("dd/mm/yyyy").parse(DateNaissance);
+        }
+        catch (ParseException ex) 
+        {
+            System.out.println(ex.getMessage());
+        }
+    }
+    public void setDateEmbauche(String DateEmbauche)
+    {
+        try 
+        {
+            //Converti une chaine de caractère de dd/mm/yyyy en format Date 
+            this.DateNaissance = new SimpleDateFormat("dd/mm/yyyy").parse(DateEmbauche);
+        }
+        catch (ParseException ex) 
+        {
+            System.out.println(ex.getMessage());
+        }
+    }
+    public void setSalaire(double Salaire)
+    {
+        this.Salaire = Salaire;
+    }
+    
+    //Méthodes getters pour obtenir les valeurs des attributs
+    public int getMatricule()
+    {
+        return this.Matricule;
+    }
+    public String getNom()
+    {
+        return this.Nom;
+    }
+    public String getPrenom()
+    {
+        return this.Prenom;
+    }
+    public String getDateNaissance()
+    {
+        //Retourne une chaine de caractère à partir d'une date
+        return new SimpleDateFormat("dd/mm/yyyy").format(this.DateNaissance);
+    }
+    public String getDateEmbauche()
+    {
+        //Retourne une chaine de caractère à partir d'une date
+        return new SimpleDateFormat("dd/MM/yyyy").format(this.DateEmbauche);
+    }
+    public double getSalaire()
+    {
+        return this.Salaire;
+    }
 }
